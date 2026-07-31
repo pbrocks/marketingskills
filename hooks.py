@@ -184,11 +184,17 @@ def _skills_section():
         section = _build_section(abs_dir, f"skills/{name}")
         if not section:
             continue
+        # Label the skill by its SKILL.md H1 (e.g. "Conversion Rate Optimization
+        # (CRO)"), falling back to the prettified folder name.
+        label = _prettify(name)
+        landing = next((n for n in _INDEX_NAMES if os.path.isfile(os.path.join(abs_dir, n))), None)
+        if landing:
+            label = _first_h1(os.path.join(abs_dir, landing)) or label
         # A skill with only an Overview collapses to a single page entry.
         if len(section) == 1 and "Overview" in section[0]:
-            entries.append({_prettify(name): section[0]["Overview"]})
+            entries.append({label: section[0]["Overview"]})
         else:
-            entries.append({_prettify(name): section})
+            entries.append({label: section})
     return entries or None
 
 

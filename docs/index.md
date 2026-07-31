@@ -54,6 +54,12 @@ marketingskills/
 - [Versioning](versioning.md) — the two-layer version scheme and when to bump each
 - [Tools](tools.md) — the tools registry and integration guides
 
+The full **Skills** and **Tools** sections in the sidebar are generated automatically
+from the repo's `skills/` and `tools/` directories — every `SKILL.md`, reference, and
+integration guide is browsable here. This works via two symlinks under `docs/`
+(`docs/skills → ../skills`, `docs/tools → ../tools`); `hooks.py` builds the nav for
+them at build time, so new skills appear with no config changes.
+
 ## Serving & Deploying These Docs
 
 ```bash

@@ -11,10 +11,9 @@ markdown_extensions:
   - tables
   - fenced_code
 
-# Skill/tool source files (code + data) that are not documentation.
-# Their markdown is still built; only these raw files are kept out of the site.
-exclude_docs: |
-  *.js
+# Skill/tool source files (CLI .js, JSON/CSV data, HTML samples) are copied as-is
+# alongside their markdown, so in-page links from the docs to that source resolve
+# on the built site.
 
 # 'Skills' and 'Tools' sections are appended automatically by hooks.py (on_config)
 # from the docs/skills and docs/tools symlinks — no need to list ~300 pages here.
