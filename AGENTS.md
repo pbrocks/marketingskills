@@ -4,7 +4,9 @@ Guidelines for AI agents working in this repository.
 
 ## Repository Overview
 
-This repository contains **Agent Skills** for AI agents following the [Agent Skills specification](https://agentskills.io/specification.md). Skills install to `.agents/skills/` (the cross-agent standard). This repo also serves as a **Claude Code plugin marketplace** via `.claude-plugin/marketplace.json`.
+This repository contains **Agent Skills** for AI agents following the [Agent Skills specification](https://agentskills.io/specification.md). Skills install to `.agents/skills/` (the cross-agent standard).
+
+This is a **fork** maintained for internal use — it is **not** distributed as a Claude Code plugin marketplace. It keeps `.claude-plugin/plugin.json` (the plugin manifest) but no `marketplace.json`. Install skills by copying into `.agents/skills/` rather than via `/plugin install`.
 
 - **Name**: Marketing Skills
 - **GitHub**: [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills)
@@ -16,7 +18,8 @@ This repository contains **Agent Skills** for AI agents following the [Agent Ski
 ```
 marketingskills/
 ├── .claude-plugin/
-│   └── marketplace.json   # Claude Code plugin marketplace manifest
+│   └── plugin.json        # Plugin manifest (version synced from VERSION)
+├── VERSION                # Canonical repo release version (x.y.z)
 ├── skills/                # Agent Skills
 │   └── skill-name/
 │       └── SKILL.md       # Required skill file
@@ -25,6 +28,7 @@ marketingskills/
 │   ├── composio/          # Composio integration layer (quick start + toolkit mapping)
 │   ├── integrations/      # API integration guides per tool
 │   └── REGISTRY.md        # Tool index with capabilities
+├── docs/                  # MkDocs documentation (see mkdocs.yml)
 ├── CONTRIBUTING.md
 ├── LICENSE
 └── README.md
@@ -49,7 +53,7 @@ node tools/clis/<name>.js <cmd> --dry-run  # Preview request without sending
 
 Two version layers, with different rules:
 
-**Repo release version** — `.claude-plugin/plugin.json` `version`, `.claude-plugin/marketplace.json` `metadata.version`, and the `VERSIONS.md` changelog headings all share one x.y.z number:
+**Repo release version** — the canonical value lives in the root `VERSION` file. `.claude-plugin/plugin.json` `version` is synced from it (by `.github/scripts/sync-skills.js`), and the `VERSIONS.md` changelog headings share the same x.y.z number:
 
 - **x** — repo-wide changes (restructures, spec changes, breaking changes)
 - **y** — new skill(s) added
@@ -59,7 +63,7 @@ Do not bump y for content added to an existing skill, no matter how substantial 
 
 **Per-skill version** — `metadata.version` in each SKILL.md, mirrored in the `VERSIONS.md` table. Bump on ANY shipped change to that skill: the update check compares `VERSIONS.md` against users' local skill metadata, so an unbumped change is invisible to installed users. Minor for new capability or description triggers, patch for fixes and clarifications.
 
-Bump the repo release version in the same PR that ships the change (2.7.0 and 2.8.0 shipped without touching plugin.json/marketplace.json and needed a catch-up later).
+Bump the `VERSION` file in the same PR that ships the change; `plugin.json` follows automatically via the sync script.
 
 ## Agent Skills Specification
 
@@ -145,14 +149,9 @@ description: When the user wants to optimize conversions on any marketing page. 
 
 ## Claude Code Plugin
 
-This repo also serves as a plugin marketplace. The manifest at `.claude-plugin/marketplace.json` lists all skills for installation via:
+This fork does **not** ship a `marketplace.json`, so it is not installable via the `/plugin marketplace add` → `/plugin install` flow. It retains `.claude-plugin/plugin.json` as the plugin manifest for local plugin development and in case marketplace distribution is restored later.
 
-```bash
-/plugin marketplace add coreyhaines31/marketingskills
-/plugin install marketing-skills
-```
-
-See [Claude Code plugins documentation](https://code.claude.com/docs/en/plugins.md) for details.
+To use these skills, copy them into `.agents/skills/` (the cross-agent standard). See [Claude Code plugins documentation](https://code.claude.com/docs/en/plugins.md) for background on the plugin format.
 
 ## Git Workflow
 

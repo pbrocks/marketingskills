@@ -1,6 +1,10 @@
 # Dependencies
 node_modules/
 
+# MkDocs build output + Python cache
+site/
+__pycache__/
+
 # Skill install artifacts (npx skills add)
 .agents/
 .claude/

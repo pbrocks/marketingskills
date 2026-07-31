@@ -1,0 +1,24 @@
+site_name: Marketing Skills - Documentation
+hooks:
+  - hooks.py
+
+theme:
+  name: readthedocs
+  highlightjs: true
+
+markdown_extensions:
+  - admonition
+  - tables
+  - fenced_code
+
+# Skill/tool source files (code + data) that are not documentation.
+# Their markdown is still built; only these raw files are kept out of the site.
+exclude_docs: |
+  *.js
+
+# 'Skills' and 'Tools' sections are appended automatically by hooks.py (on_config)
+# from the docs/skills and docs/tools symlinks — no need to list ~300 pages here.
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Versioning: versioning.md
